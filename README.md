@@ -31,17 +31,16 @@ This mod requires **UE4SS version 3.0.1** (⚠ other UE4SS versions are not supp
 ### 2) Install IoStoreLoaderMod
 1) Copy the mod folder into:
 ```
-UE4SS/Mods/IoStoreLoaderMod/
+Mods/IoStoreLoaderMod/
 ```
 
 2) Ensure the following structure exists:
 ```
-UE4SS/
-  Mods/
-    IoStoreLoaderMod/
-      dlls/
-        main.dll
-      load_order.txt
+Mods/
+  IoStoreLoaderMod/
+    dlls/
+      main.dll
+    load_order.txt
 ```
 3) Enable the mod in `Mods/mods.txt` by adding the following line **at the very top of the file**:
 ```
@@ -55,16 +54,15 @@ Make sure the name **exactly matches** the mod folder name.
 Example layout:
 
 ```
-UE4SS/
-  Mods/
-    IoStoreLoaderMod/
-      dlls/
-        main.dll
-      MyAwesomeMod/
-        MyAwesomeMod.pak
-        MyAwesomeMod.utoc
-        MyAwesomeMod.ucas
-      load_order.txt
+Mods/
+  IoStoreLoaderMod/
+    dlls/
+      main.dll
+    MyAwesomeMod/
+      MyAwesomeMod.pak
+      MyAwesomeMod.utoc
+      MyAwesomeMod.ucas
+    load_order.txt
 ```
 
 ### Notes
