@@ -7,8 +7,6 @@
 
 The mod integrates directly with Unreal's **FIoDispatcher** and **FPakPlatformFile** systems, allowing custom asset containers to be mounted with deterministic priority and override behavior.
 
----
-
 ## Features
 
 * ✅ Runtime mounting of **IoStore containers** (`.utoc` / `.ucas`)
@@ -17,15 +15,40 @@ The mod integrates directly with Unreal's **FIoDispatcher** and **FPakPlatformFi
 * ✅ Supports mods with **multiple IoStore containers per folder**
 * ❌ Actor spawning from mounted assets (**not implemented yet**)
 
----
-
 ## Requirements
 
 * **UE4SS 3.0.1** (C++ mods enabled)
-* Windows x64
 * Mods must be **properly cooked** for the Hi-FI RUSH (i.e. UE 4.27, IoStore enabled)
 
----
+## Installation
+### 1) Install UE4SS
+This mod requires **UE4SS version 3.0.1** (⚠ other UE4SS versions are not supported and may not work correctly).
+* Download UE4SS v3.0.1 from the official UE4SS releases
+* Install UE4SS into the game directory (`C:\Program Files (x86)\Steam\steamapps\common\Hi-Fi RUSH\Hibiki\Binaries\Win64`)
+* Make sure C++ mods are enabled and UE4SS is working correctly before proceeding
+* ❗ Add Hi-Fi RUSH support (if you haven't done it already) by copying `UE4SS_Signatures` and `UE4SS-settings.ini` into the game directory.
+
+### 2) Install IoStoreLoaderMod
+1) Copy the mod folder into:
+```
+UE4SS/Mods/IoStoreLoaderMod/
+```
+
+2) Ensure the following structure exists:
+```
+UE4SS/
+  Mods/
+    IoStoreLoaderMod/
+      dlls/
+        main.dll
+      load_order.txt
+```
+3) Enable the mod in `Mods/mods.txt` by adding the following line **at the very top of the file**:
+```
+IoStoreLoaderMod : 1
+```
+
+Make sure the name **exactly matches** the mod folder name.
 
 ## Mod Folder Structure
 
@@ -50,8 +73,6 @@ UE4SS/
 * `.ucas1`, `.ucas2`, etc. are supported automatically
 * The mod discovers all valid IoStore bases inside the specified folders
 
----
-
 ## Configuration: `load_order.txt`
 
 Defines which containers to load and in what order.
@@ -65,61 +86,22 @@ Defines which containers to load and in what order.
 ```
 
 ### Rules
-
-* **priority**
+* [**priority**]
   Higher numbers override lower ones
   (internally combined with a base offset i.e. 200)
-
-* **relative_path**
+* [**relative_path**]
   Path relative to the mod root
   (`Mods/IoStoreLoaderMod/`)
 
-### How paths are resolved
-
-Given:
-
-```
-Paks/ExampleMod
-```
-
-If the folder contains:
-
-```
-ExampleMod.utoc
-ExampleMod.ucas
-```
-
-The loader mounts:
-
-```
-Mods/IoStoreLoaderMod/Paks/ExampleMod/ExampleMod
-```
-
-If a folder contains multiple IoStore pairs:
-
-```
-Mod1.utoc / Mod1.ucas
-Mod2.utoc / Mod2.ucas
-```
-
-Each base is mounted independently.
-
----
-
 ## Mounting Behavior
-
 The mod uses a **best-available strategy**:
-
 1. **If `.pak` exists**
    * Calls `FPakPlatformFile::Mount`
    * Automatically mounts the associated IoStore environment
    * Ensures proper asset registry + override behavior
-
 2. **If `.pak` does NOT exist**
    * Calls `FIoDispatcher::Mount` directly
    * Requires `.utoc` + at least one `.ucas*`
-
----
 
 ## Troubleshooting
 
@@ -128,8 +110,6 @@ The mod uses a **best-available strategy**:
 * Check UE4SS logs
 * Verify `load_order.txt` path is correct
 * Ensure the mod is cooked for the **same engine version (4.27)** with **UseIoStore** enabled
-
----
 
 ## Disclaimer
 
