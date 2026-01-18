@@ -85,8 +85,8 @@ public:
     IOStoreLoaderMod() : CppUserModBase()
     {
         ModName        = mod_name;
-        ModVersion     = STR("1.0");
-        ModDescription = STR("Loads IoStore assets (.utoc/.ucas)");
+        ModVersion     = STR("1.1");
+        ModDescription = STR("Loads Pak/IoStore mods (.pak/.utoc/.ucas)");
         ModAuthors     = STR("akmubi");
 
         MH_STATUS s = MH_Initialize();
