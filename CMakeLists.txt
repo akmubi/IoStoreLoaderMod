@@ -5,7 +5,6 @@ project(${TARGET})
 
 add_library(${TARGET} SHARED
 	dllmain.cpp
-	sigscan.cpp
 )
 
 target_include_directories(${TARGET} PRIVATE .)
