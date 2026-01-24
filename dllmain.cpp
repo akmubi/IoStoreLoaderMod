@@ -572,7 +572,7 @@ mount_mod_folder_only_pak(const fs::path& mod_dir, int order_base)
         for (size_t i = 0; i < utocs.size(); ++i) {
 			mount_one_utoc_ucas(utocs[i], order_base + (int)i);
 
-            auto base_name = paks[i].filename().replace_extension("").wstring();
+            auto base_name = utocs[i].filename().replace_extension("").wstring();
             queue_mod_actor_spawn(base_name);
         }
         return;
@@ -882,7 +882,7 @@ public:
     IOStoreLoaderMod()
     {
         ModName        = kModName;
-        ModVersion     = STR("0.2.0");
+        ModVersion     = STR("0.2.1");
         ModDescription = STR("Loads Pak/IoStore mods (.pak/.utoc/.ucas)");
         ModAuthors     = STR("akmubi");
 

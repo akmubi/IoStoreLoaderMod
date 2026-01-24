@@ -132,6 +132,11 @@ So if you ship `ExampleMod.pak`, the loader will try to spawn:
 /Game/Mods/ExampleMod/ModActor.ModActor_C
 ```
 
+### Blueprint custom events
+The mod also "implements" the following custom events (duplicated from `BPModLoaderMod`):
+- `HbkPrintToModLoader`         - print to the console 
+- `HbkConstructPersistentObject`- create a persistent object
+
 ## Troubleshooting
 
 ### Mod does not mount
