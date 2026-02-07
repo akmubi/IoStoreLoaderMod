@@ -296,10 +296,15 @@ discover_mod_dirs()
             continue;
         }
 
-        fs::path p = it.path().lexically_normal();
-        if (p.filename() == L"dlls") {
+        fs::path     p     = it.path().lexically_normal();
+        std::wstring fname = p.filename().wstring();
+
+        if (_wcsicmp(fname.c_str(), L"dlls")     == 0 ||
+            _wcsicmp(fname.c_str(), L"scripts")  == 0 ||
+            _wcsicmp(fname.c_str(), L"disabled") == 0) {
             continue;
         }
+
         dirs.push_back(p);
     }
 
@@ -710,10 +715,10 @@ io_mount_hook(void* self, POD::FIoStatus* status, POD::FIoEnvironment* env, POD:
 
     POD::FIoStatus* ret = g_real_io_mount(self, status, env, guid, key);
 
-    LOG_NOTICE(STR("Path:   {}\n"), env->Path.Data.Data);
-    LOG_NOTICE(STR("Order:  {}\n"), env->Order);
-    LOG_NOTICE(STR("GUID:   {}.{}.{}.{}\n"), guid->A, guid->B, guid->C, guid->D);
-    LOG_NOTICE(STR("Status: {}\n"), ret->ErrorMessage);
+    LOG_INFO(STR("Path:   {}\n"), env->Path.Data.Data);
+    LOG_INFO(STR("Order:  {}\n"), env->Order);
+    LOG_INFO(STR("GUID:   {}.{}.{}.{}\n"), guid->A, guid->B, guid->C, guid->D);
+    LOG_INFO(STR("Status: {}\n"), ret->ErrorMessage);
 
     return ret;
 }
@@ -721,10 +726,10 @@ io_mount_hook(void* self, POD::FIoStatus* status, POD::FIoEnvironment* env, POD:
 bool __fastcall
 pak_mount_hook(void* self, const wchar_t* pak_filename, int pak_order, const wchar_t* path, bool load_index)
 {
-    LOG_NOTICE(STR("Pak Filename: {}\n"), pak_filename ? pak_filename : L"<null>");
-    LOG_NOTICE(STR("Pak Order:    {}\n"), pak_order);
-    LOG_NOTICE(STR("Path:         {}\n"), path ? path : L"<null>");
-    LOG_NOTICE(STR("Load Index:   {}\n"), load_index);
+    LOG_INFO(STR("Pak Filename: {}\n"), pak_filename ? pak_filename : L"<null>");
+    LOG_INFO(STR("Pak Order:    {}\n"), pak_order);
+    LOG_INFO(STR("Path:         {}\n"), path ? path : L"<null>");
+    LOG_INFO(STR("Load Index:   {}\n"), load_index);
 
     if (!self || !g_real_pak_mount) {
         LOG_WARN(STR("FPakPlatformFile::Mount hook: self={:p}, original={:p}\n"), self, (void*)g_real_pak_mount);
@@ -732,7 +737,7 @@ pak_mount_hook(void* self, const wchar_t* pak_filename, int pak_order, const wch
     }
 
     bool ok = g_real_pak_mount(self, pak_filename, pak_order, path, load_index);
-    LOG_NOTICE(STR("OK:           {}\n"), ok);
+    LOG_INFO(STR("OK:           {}\n"), ok);
     return ok;
 }
 
@@ -882,7 +887,7 @@ public:
     IOStoreLoaderMod()
     {
         ModName        = kModName;
-        ModVersion     = STR("0.2.1");
+        ModVersion     = STR("0.2.2");
         ModDescription = STR("Loads Pak/IoStore mods (.pak/.utoc/.ucas)");
         ModAuthors     = STR("akmubi");
 
