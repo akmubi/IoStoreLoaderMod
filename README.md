@@ -16,7 +16,7 @@ A **UE4SS C++ mod** that loads custom assets (`.pak`, `.utoc`, `.ucas` files) in
 
 ## Installation
 ### Steam/Epic Games
-1. Download **IoStoreLoaderBundle (Steam/Epic).zip** from [Latest Release](https://github.com/akmubi/IoStoreLoaderMod/releases/latest).
+1. Download **IoStoreLoaderBundle (Steam, Epic).zip** from [Latest Release](https://github.com/akmubi/IoStoreLoaderMod/releases/latest).
 2. Extract to: `<Game>/Hibiki/Binaries/Win64/`
 
 ### Xbox (Microsoft Store)
