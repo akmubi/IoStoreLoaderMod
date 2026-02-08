@@ -87,7 +87,7 @@ Example: `ExampleMod.pak` spawns `/Game/Mods/ExampleMod/ModActor.ModActor_C`
 Works on:
 - ✅ Steam
 - ✅ Epic Games Store
-- ✅ Xbox Game Pass (Microsoft Store)
+- ✅ Xbox (Microsoft Store)
 
 ## Disclaimer
 
