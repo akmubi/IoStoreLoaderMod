@@ -276,6 +276,25 @@ list_files_ext_sorted(const fs::path& dir, std::wstring_view ext)
     return out;
 }
 
+static inline std::wstring
+to_game_relative_path(const fs::path& absolute_path)
+{
+    fs::path working_dir = fs::current_path();
+
+    std::error_code ec;
+    fs::path rel_path = fs::relative(absolute_path, working_dir, ec);
+
+    if (ec || rel_path.empty()) {
+        LOG_WARN(STR("Could not compute relative path for: {}\n"), absolute_path.wstring());
+        return absolute_path;
+    }
+
+    std::wstring result = rel_path.wstring();
+    std::replace(result.begin(), result.end(), L'\\', L'/');
+
+    return result;
+}
+
 static inline std::vector<fs::path>
 discover_mod_dirs()
 {
@@ -283,6 +302,7 @@ discover_mod_dirs()
     std::error_code ec;
 
     fs::path root = loader_root();
+
     if (!fs::exists(root, ec) || !fs::is_directory(root, ec)) {
         return dirs;
     }
@@ -514,9 +534,11 @@ mount_one_pak(const fs::path& pak_path, int order)
         return;
     }
 
+    std::wstring game_rel_path = to_game_relative_path(pak_path);
+
     pak_mount_hook(
         g_pak_platform_file,
-        pak_path.wstring().c_str(),
+        game_rel_path.c_str(),
         order,
         nullptr,
         true
@@ -539,7 +561,9 @@ mount_one_utoc_ucas(const fs::path& path, int order)
         return;
     }
 
-    POD::FIoEnvironment env(base.wstring(), order);
+    std::wstring game_rel_path = to_game_relative_path(base);
+
+    POD::FIoEnvironment env(game_rel_path, order);
     POD::FIoStatus      status{};
     POD::FGuid          guid{};
     POD::FAES           key{};
@@ -887,7 +911,7 @@ public:
     IOStoreLoaderMod()
     {
         ModName        = kModName;
-        ModVersion     = STR("0.2.2");
+        ModVersion     = STR("0.3.0");
         ModDescription = STR("Loads Pak/IoStore mods (.pak/.utoc/.ucas)");
         ModAuthors     = STR("akmubi");
 
